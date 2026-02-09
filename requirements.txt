@@ -1,0 +1,19 @@
+# Core data + ML
+numpy
+pandas
+scikit-learn
+xgboost
+
+# Experiment tracking / model packaging
+mlflow
+
+# App for deployment
+streamlit
+
+# Utilities
+pyyaml
+python-dotenv
+
+# Dev / quality
+pytest
+ruff
