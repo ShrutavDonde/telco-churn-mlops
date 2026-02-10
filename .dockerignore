@@ -1,0 +1,19 @@
+# venvs
+e2e/
+.e2e/
+
+# MLflow local runs
+mlruns/
+
+# caches
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# notebooks
+notebooks/
+.ipynb_checkpoints/
+
+# git
+.git/
+.gitignore
