@@ -1,19 +1,21 @@
-import sys
-from pathlib import Path
+# import sys
+# from pathlib import Path
 import os
 import pytest
+
+
+
+
+# ROOT = Path(__file__).resolve().parents[1]
+# sys.path.insert(0, str(ROOT))
+
+
+from src.infer import predict_proba_one
 
 pytestmark = pytest.mark.skipif(
     os.environ.get("CI") == "true",
     reason="Inference test requires a locally trained MLflow run."
 )
-
-
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
-
-
-from src.infer import predict_proba_one
 
 def test_predict_proba_one_returns_probability():
     features = {
