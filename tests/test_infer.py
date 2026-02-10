@@ -1,5 +1,13 @@
 import sys
 from pathlib import Path
+import os
+import pytest
+
+pytestmark = pytest.mark.skipif(
+    os.environ.get("CI") == "true",
+    reason="Inference test requires a locally trained MLflow run."
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
