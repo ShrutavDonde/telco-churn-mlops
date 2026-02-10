@@ -6,9 +6,21 @@ import mlflow
 import mlflow.sklearn
 from mlflow.tracking import MlflowClient
 import pandas as pd
+import joblib
+from pathlib import Path
 
 from .config import MLRUNS_DIR
 from .train import EXPERIMENT_NAME
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+EXPORTED_MODEL_PATH = PROJECT_ROOT / "artifacts" / "model.joblib"
+
+def load_model():
+    if EXPORTED_MODEL_PATH.exists():
+        return joblib.load(EXPORTED_MODEL_PATH), "artifacts/model.joblib"
+    # fallback to MLflow latest (optional)
+    model, run_id = load_latest_sklearn_model()
+    return model, f"mlflow:{run_id}"
 
 def load_latest_sklearn_model() -> Tuple[Any, str]:
     mlflow.set_tracking_uri(f"file:{MLRUNS_DIR.as_posix()}")
@@ -32,7 +44,7 @@ def load_latest_sklearn_model() -> Tuple[Any, str]:
     return model, run_id
 
 def predict_proba_one(features: Dict[str, Any]) -> Dict[str, Any]:
-    model, run_id = load_latest_sklearn_model()
+    model, run_id = load_model()
     X = pd.DataFrame([features])
     p = float(model.predict_proba(X)[:, 1][0])
     return {"churn_probability": p, "run_id": run_id}

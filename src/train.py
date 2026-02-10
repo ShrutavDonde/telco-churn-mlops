@@ -9,6 +9,8 @@ from sklearn.metrics import roc_auc_score
 from .config import MLRUNS_DIR
 from .data import build_dataset
 from .modeling import make_pipeline, TARGET_COL, ID_COL
+import joblib
+from pathlib import Path
 
 EXPERIMENT_NAME = "telco-churn-xgb"
 
@@ -42,6 +44,16 @@ def main() -> None:
             artifact_path="model",
             registered_model_name=None,  # keep local/simple for now
         )
+
+        # Export model artifact for deployment (preprocess + model pipeline)
+        artifacts_dir = Path(__file__).resolve().parents[1] / "artifacts"
+        artifacts_dir.mkdir(exist_ok=True)
+        model_path = artifacts_dir / "model.joblib"
+        joblib.dump(pipeline, model_path)
+
+        # (optional) log exported file to MLflow as an artifact too
+        mlflow.log_artifact(str(model_path), artifact_path="exported")
+
 
         print(f"ROC AUC: {auc:.4f}")
 

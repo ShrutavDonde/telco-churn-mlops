@@ -1,6 +1,7 @@
 # Core data + ML
 numpy
 pandas
+joblib
 scikit-learn
 xgboost
 

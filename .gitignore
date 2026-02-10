@@ -4,6 +4,7 @@ e2e/
 
 # MLflow local runs
 mlruns/
+artifacts/
 
 # Python cache
 __pycache__/
